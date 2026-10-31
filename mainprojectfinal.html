@@ -1,0 +1,452 @@
+Index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Travique | Your Journey, Simplified</title>
+<style>
+:root{--bg:#08111f;--card:#101d2e;--green:#36d6a0;--text:#f2f7ff;--muted:#a4b2c5;--border:#26384e}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 Arial,sans-serif}
+header{position:sticky;top:0;z-index:10;background:#08111ff5;border-bottom:1px solid var(--border);padding:14px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.logo{font-size:25px;font-weight:800;color:var(--green)}
+.logo span{color:white}
+nav{display:flex;gap:7px;flex-wrap:wrap}
+button{cursor:pointer;font:inherit}
+nav button,.secondary{background:transparent;color:var(--text);border:1px solid var(--border);padding:8px 12px;border-radius:9px}
+button:hover{filter:brightness(1.15)}
+.primary{background:var(--green);color:#062219;border:0;border-radius:10px;padding:11px 16px;font-weight:bold}
+main{max-width:1200px;margin:auto;padding:25px 20px 55px}
+section{margin-top:30px;scroll-margin-top:100px}
+.hero{margin:0;min-height:350px;border-radius:23px;padding:40px;display:flex;align-items:center;background:linear-gradient(90deg,#08111ff5,#08111fb5,#08111f30),url('https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?auto=format&fit=crop&w=1500&q=80') center/cover}
+.hero-content{max-width:650px}
+.eyebrow{color:var(--green);font-size:12px;font-weight:bold;letter-spacing:2px}
+h1{font-size:clamp(36px,5vw,58px);line-height:1.08;margin:12px 0}
+h2{font-size:27px;margin:0 0 12px}
+h3{margin:8px 0}
+p{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;min-width:0}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
+input,select{width:100%;background:#091625;color:white;border:1px solid var(--border);border-radius:9px;padding:11px}
+.full{grid-column:1/-1}
+.tag{display:inline-block;color:var(--green);border:1px solid #286b59;border-radius:25px;padding:3px 9px;font-size:12px;margin:3px}
+.place-image{width:100%;height:155px;object-fit:cover;border-radius:10px}
+.result-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:15px}
+.recommendations{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-top:15px}
+.day{border-left:2px solid var(--green);padding-left:14px;margin:16px 0}
+.item{padding:12px 0;border-bottom:1px solid var(--border)}
+.item:last-child{border-bottom:0}
+.price{font-size:23px;font-weight:bold;color:var(--green)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.hidden{display:none!important}
+.notice{font-size:12px;color:var(--muted)}
+a{color:var(--green)}
+.chat-log{height:220px;overflow:auto;background:#091625;padding:10px;border-radius:10px;margin:12px 0}
+.msg{background:#17283c;padding:10px;border-radius:10px;margin:8px 0;white-space:pre-wrap}
+.msg.me{background:#174c41;margin-left:12%}
+.chat-row{display:flex;gap:8px}
+.chat-row input{flex:1;min-width:0}
+footer{text-align:center;border-top:1px solid var(--border);padding:25px;color:var(--muted)}
+@media(max-width:800px){header{align-items:flex-start;flex-direction:column}.grid,.form-grid,.result-grid,.recommendations{grid-template-columns:1fr}.full{grid-column:auto}.hero{padding:25px;min-height:300px}main{padding:16px 12px 35px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">✦ <span>Travique</span></div>
+ <nav>
+  <button onclick="go('home')">Home</button>
+  <button onclick="go('planner')">Plan a Trip</button>
+  <button onclick="go('explore')">Explore</button>
+  <button onclick="go('assistant')">Assistant</button>
+  <button onclick="go('translator')">Phrasebook</button>
+  <button onclick="showSaved()">My Trips</button>
+ </nav>
+</header>
+
+<main>
+<section id="home" class="hero">
+ <div class="hero-content">
+  <div class="eyebrow">TRAVEL SMARTER · EXPLORE DEEPER</div>
+  <h1>Your journey,<br> beautifully simplified.</h1>
+  <p>Plan your route, discover famous restaurants and markets, compare stays and uncover the stories behind India's remarkable cities.</p>
+  <button class="primary" onclick="go('planner')">✦ Plan My Trip</button>
+  <div style="margin-top:12px"><span class="tag">Detailed itineraries</span><span class="tag">Budget planning</span><span class="tag">Local culture</span></div>
+ </div>
+</section>
+
+<section id="planner">
+ <h2>Plan your next adventure</h2>
+ <p>Choose Jaipur, Agra or Varanasi to generate a detailed sample itinerary.</p>
+ <form id="tripForm" class="card form-grid">
+  <div><label for="from">Departure city</label><input id="from" value="Mathura" required></div>
+  <div><label for="destination">Destination</label><select id="destination"><option>Jaipur</option><option>Agra</option><option>Varanasi</option></select></div>
+  <div><label for="date">Departure date</label><input id="date" type="date" required></div>
+  <div><label for="days">Trip duration</label><select id="days"><option value="1">1 day</option><option value="2">2 days</option><option value="3" selected>3 days</option></select></div>
+  <div><label for="people">Travellers</label><select id="people"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></div>
+  <div><label for="budget">Total budget (₹)</label><input id="budget" type="number" min="500" value="12000" required></div>
+  <div class="full"><label for="style">Travel preference</label><select id="style"><option>Balanced</option><option>Budget friendly</option><option>Culture and history</option><option>Food and cafes</option><option>Shopping</option></select></div>
+  <div class="full"><button class="primary" type="submit">Generate Detailed Itinerary →</button></div>
+ </form>
+</section>
+
+<section id="results" class="hidden">
+ <h2>Your personalised journey</h2>
+ <p id="tripTitle"></p>
+ <div class="result-grid">
+  <div class="card"><h3>🗓️ Day-by-day itinerary</h3><div id="itinerary"></div></div>
+  <div>
+   <div class="card"><h3>Estimated budget breakdown</h3><div id="totalCost" class="price"></div><div id="budgetBreakdown"></div><p class="notice">Illustrative estimates only. Actual costs vary by date and choices.</p></div>
+   <div class="card" style="margin-top:15px"><h3>Save this trip</h3><p>Save your plan in this browser.</p><button class="primary" onclick="saveTrip()">♡ Save Itinerary</button></div>
+  </div>
+ </div>
+ <div class="card" style="margin-top:15px"><h3>🚆 Compare transport</h3><div id="transport" class="grid"></div><p class="notice">No live ticket prices or schedules are connected.</p></div>
+ <div class="recommendations">
+  <div class="card"><h3>🏨 Suggested stays</h3><div id="stayList"></div></div>
+  <div class="card"><h3>🍽️ Restaurants to explore</h3><div id="foodList"></div></div>
+  <div class="card"><h3>🛍️ Famous shopping places</h3><div id="shoppingList"></div></div>
+ </div>
+</section>
+
+<section id="explore">
+ <h2>Explore three iconic cities</h2>
+ <p>Discover attractions, restaurants, shopping markets and local culture.</p>
+ <div id="destinations" class="grid"></div>
+</section>
+
+<section id="assistant">
+ <h2>Travique Travel Assistant ✦</h2>
+ <p>This prototype uses prepared responses rather than a connected live AI model.</p>
+ <div class="card">
+  <div id="chatLog" class="chat-log"><div class="msg">Hi! Ask me about Jaipur, Agra, Varanasi, shopping, restaurants or your budget.</div></div>
+  <div class="chat-row"><input id="chatInput" placeholder="e.g. Where can I shop in Jaipur?" onkeydown="if(event.key==='Enter')sendChat()"><button class="primary" onclick="sendChat()">Send</button></div>
+  <div class="actions"><button class="secondary" onclick="quickChat('Suggest shopping places')">Shopping ideas</button><button class="secondary" onclick="quickChat('Suggest local food')">Food ideas</button><button class="secondary" onclick="quickChat('Help with budget')">Budget tips</button></div>
+ </div>
+</section>
+
+<section id="translator">
+ <h2>Traveller's phrasebook</h2>
+ <p>Useful sample phrases in Hindi and English. This is a limited phrasebook, not live translation.</p>
+ <div class="card">
+  <div class="form-grid">
+   <div><label for="sourceLang">From</label><select id="sourceLang"><option>English</option><option>Hindi</option></select></div>
+   <div><label for="targetLang">To</label><select id="targetLang"><option>Hindi</option><option>English</option></select></div>
+   <div><label for="phrase">Phrase</label><select id="phrase"><option value="directions">Where is the station?</option><option value="food">I would like food, please.</option><option value="hotel">I have a hotel reservation.</option><option value="help">Please help me.</option><option value="price">How much does this cost?</option></select></div>
+  </div>
+  <div class="actions"><button class="primary" onclick="translatePhrase()">Translate phrase</button></div>
+  <div id="translation" class="card hidden" style="margin-top:15px"></div>
+ </div>
+</section>
+
+<section id="culture"><h2>Stories behind the places</h2><div id="cultureCards" class="grid"></div></section>
+<section id="saved" class="hidden"><h2>My saved trips</h2><div id="savedTrips" class="grid"></div></section>
+</main>
+<footer><div class="logo">✦ Travique</div><p>Your journey, simplified.</p><small>Hackathon prototype · Sample data · No live bookings</small></footer>
+
+<script>
+const places = [
+{
+ name:"Jaipur",state:"Rajasthan",img:"photo-1599661046827-dacff0c0f09a",
+ desc:"The Pink City: royal forts, colourful bazaars, crafts and Rajasthani cuisine.",
+ history:"Jaipur was founded in 1727 by Maharaja Sawai Jai Singh II. Its historic walled city is recognised as a UNESCO World Heritage Site.",
+ spots:["Hawa Mahal","City Palace","Jantar Mantar","Amber Fort","Jal Mahal","Jaigarh Fort","Nahargarh Fort","Albert Hall Museum"],
+ food:[
+  {name:"Tapri Central",detail:"Tea and snacks"},
+  {name:"Spice Court",detail:"Rajasthani cuisine"},
+  {name:"Handi Restaurant",detail:"North Indian and Rajasthani dishes"},
+  {name:"Laxmi Mishthan Bhandar (LMB)",detail:"Traditional sweets and thali"},
+  {name:"Rawat Mishthan Bhandar",detail:"Pyaaz kachori"}
+ ],
+ stays:[
+  {name:"Hotel Arya Niwas",detail:"Mid-range"},
+  {name:"Radisson Jaipur City Center",detail:"Premium"},
+  {name:"ITC Rajputana",detail:"Luxury"}
+ ],
+ shopping:[
+  {name:"Johari Bazaar",detail:"Jewellery and gemstones"},
+  {name:"Bapu Bazaar",detail:"Textiles, footwear and souvenirs"},
+  {name:"Tripolia Bazaar",detail:"Lac bangles and traditional crafts"},
+  {name:"Chandpole Bazaar",detail:"Handicrafts and marble items"}
+ ],
+ itinerary:[
+ [
+ ["07:30","Breakfast","Have tea and a local breakfast. Check the selected shop's opening time."],
+ ["08:30","Hawa Mahal","See the famous pink facade, lattice windows and distinctive architecture. Allow time for photos."],
+ ["10:00","City Palace","Explore courtyards, galleries and royal artefacts. Check ticket options before arriving."],
+ ["12:00","Jantar Mantar","Explore historic astronomical instruments and read the information displays."],
+ ["13:15","Lunch","Try a Rajasthani thali or a restaurant that fits your budget."],
+ ["14:30","Johari Bazaar","Browse jewellery and gemstones. Compare prices and ask for bills."],
+ ["16:00","Bapu Bazaar","Explore textiles, mojari footwear and souvenirs."],
+ ["18:00","Rest or cafe","Return to your hotel or take a break at a cafe."],
+ ["19:30","Dinner","Try dal baati churma or another regional dish."]
+ ],
+ [
+ ["07:30","Breakfast","Eat before travelling towards Amber Fort."],
+ ["08:30","Amber Fort","Explore historic gateways, courtyards and palace halls. Check current entry rules."],
+ ["11:00","Panna Meena ka Kund","Visit this historic stepwell if public access is open."],
+ ["12:00","Jal Mahal viewpoint","Stop at permitted lakeside viewing areas for photographs."],
+ ["13:00","Lunch","Choose a restaurant along the route back towards the city."],
+ ["14:30","Jaigarh Fort","Explore the hilltop fort and its military history; check last-entry time."],
+ ["16:30","Nahargarh Fort","Enjoy panoramic views if opening hours and transport permit."],
+ ["19:00","Dinner","Return to Jaipur for dinner near your accommodation."]
+ ],
+ [
+ ["08:30","Breakfast","Start with a relaxed breakfast."],
+ ["10:00","Albert Hall Museum","Explore its collections and architecture. Verify its weekly closing day."],
+ ["12:00","Chandpole Bazaar","Browse crafts and traditional products; compare materials and prices."],
+ ["13:30","Lunch","Try a local restaurant or thali."],
+ ["15:00","Tripolia Bazaar","Look for lac bangles and traditional goods."],
+ ["16:30","Flexible shopping","Explore block-printed textiles or revisit a favourite market."],
+ ["18:30","Rest","Collect luggage or enjoy a final cafe stop."],
+ ["19:30","Dinner","Have dinner before your onward journey."]
+ ]
+ ]
+},
+{
+ name:"Agra",state:"Uttar Pradesh",img:"photo-1564507592333-c60657eea523",
+ desc:"Mughal monuments, marble craftsmanship, historic markets and famous local food.",
+ history:"Agra was a major Mughal imperial centre. Its monuments showcase Mughal architecture, gardens and intricate stone craftsmanship.",
+ spots:["Taj Mahal","Agra Fort","Itmad-ud-Daulah","Mehtab Bagh","Akbar's Tomb at Sikandra","Jama Masjid"],
+ food:[
+  {name:"Joney's Place",detail:"Breakfast and casual meals"},
+  {name:"The Salt Cafe",detail:"Multi-cuisine and rooftop dining"},
+  {name:"The Nawaabs",detail:"North Indian dishes and kebabs"},
+  {name:"Pinch of Spice",detail:"Indian and Mughlai cuisine"},
+  {name:"Deviram Sweets",detail:"Traditional sweets and snacks"}
+ ],
+ stays:[
+  {name:"Radisson Hotel Agra",detail:"Premium"},
+  {name:"Trident, Agra",detail:"Luxury"},
+  {name:"Holiday Inn Agra MG Road",detail:"Premium"}
+ ],
+ shopping:[
+  {name:"Sadar Bazaar",detail:"Souvenirs, footwear and local shopping"},
+  {name:"Raja Ki Mandi Market",detail:"Local shopping and clothing"},
+  {name:"Kinari Bazaar",detail:"Decorative goods, textiles and wedding items"},
+  {name:"Taj Ganj craft shops",detail:"Marble inlay work and souvenirs"}
+ ],
+ itinerary:[
+ [
+ ["06:00","Taj Mahal","Start early to avoid some crowds. Explore the gardens, marble architecture and inlay details. Verify opening days and ticket rules."],
+ ["09:00","Breakfast","Have breakfast nearby after sightseeing."],
+ ["10:00","Agra Fort","Explore historic courtyards, audience halls and Mughal-era structures."],
+ ["12:30","Lunch","Choose a restaurant around the city centre or Fatehabad Road."],
+ ["14:00","Marble craftsmanship","Visit a reputable craft shop to learn about stone inlay. Compare prices and avoid pressure to buy."],
+ ["16:00","Sadar Bazaar","Browse souvenirs, footwear and local products. Keep valuables secure."],
+ ["18:30","Local snack","Try petha or another regional speciality from a hygienic shop."],
+ ["19:30","Dinner","Choose a restaurant after checking its current menu and reviews."]
+ ],
+ [
+ ["08:00","Breakfast","Start with a relaxed meal."],
+ ["09:00","Itmad-ud-Daulah","Explore the tomb, decorative stone inlay and garden setting."],
+ ["11:00","Mehtab Bagh","Enjoy the garden and views across the river; check access and weather."],
+ ["12:30","Lunch","Choose a restaurant that suits your budget."],
+ ["14:00","Akbar's Tomb, Sikandra","Explore the gateway, gardens and architecture. Verify closing time."],
+ ["16:30","Kinari Bazaar","Browse decorative goods and textiles; expect crowded lanes."],
+ ["18:00","Cafe break","Take a break before dinner."],
+ ["19:30","Dinner","Try Mughlai or North Indian dishes."]
+ ],
+ [
+ ["08:30","Breakfast","Keep the morning flexible."],
+ ["09:30","Jama Masjid area","Explore the historic neighbourhood respectfully and check access conditions."],
+ ["11:00","Raja Ki Mandi","Browse clothing and everyday local shopping."],
+ ["12:30","Lunch","Choose a restaurant within budget."],
+ ["14:00","Taj Ganj craft shops","Compare marble inlay and souvenirs; ask for clear prices and receipts."],
+ ["16:00","Free time","Revisit a favourite area or relax at a cafe."],
+ ["18:00","Departure preparation","Collect luggage and allow sufficient time for onward transport."],
+ ["19:00","Dinner","Have an early meal if travelling that night."]
+ ]
+ ]
+},
+{
+ name:"Varanasi",state:"Uttar Pradesh",img:"photo-1561361513-2d000a50f0dc",
+ desc:"Riverfront ghats, Banarasi silk, historic lanes, temples and local cuisine.",
+ history:"Varanasi is one of India's historic cultural and spiritual centres, known for the Ganges, its ghats, temples, music and Banarasi silk traditions.",
+ spots:["Assi Ghat","Dashashwamedh Ghat","Kashi Vishwanath Temple","Sarnath","Ramnagar Fort","Tulsi Manas Temple","Sankat Mochan Temple"],
+ food:[
+  {name:"1916 Cafe & Restaurant",detail:"Cafe meals"},
+  {name:"Kashi Annapurna Rasoi",detail:"Indian meals"},
+  {name:"Deena Chaat Bhandar",detail:"Local chaat"},
+  {name:"Baati Chokha Restaurant",detail:"Traditional regional food"},
+  {name:"Local lassi and kachori shops",detail:"Popular breakfast and snacks"}
+ ],
+ stays:[
+  {name:"BrijRama Palace, By the Ganges",detail:"Luxury heritage"},
+  {name:"Taj Ganges, Varanasi",detail:"Premium"},
+  {name:"Hotel Ganges View",detail:"Heritage-style"}
+ ],
+ shopping:[
+  {name:"Vishwanath Gali",detail:"Souvenirs, religious items and local shopping"},
+  {name:"Thatheri Bazaar",detail:"Traditional metalwork and crafts"},
+  {name:"Banarasi silk shops around the old city",detail:"Silk sarees and woven textiles"},
+  {name:"Godowlia Market",detail:"Clothing, souvenirs and everyday shopping"}
+ ],
+ itinerary:[
+ [
+ ["05:30","Sunrise at Assi Ghat","Experience the early riverfront. Boat trips are optional; use reputable operators and confirm prices and safety."],
+ ["07:00","Breakfast","Try a local breakfast or a nearby cafe."],
+ ["08:30","Old city lanes","Explore with a guide if helpful. Wear comfortable shoes and respect residents."],
+ ["10:00","Kashi Vishwanath area","Follow current temple entry, security and photography rules."],
+ ["12:00","Lunch","Choose a restaurant serving local vegetarian food."],
+ ["13:30","Banarasi silk shopping","Visit established shops, ask about fabric and weaving, and compare prices."],
+ ["16:00","Dashashwamedh Ghat","Walk along the riverfront and find a suitable place before evening crowds."],
+ ["18:00","Ganga Aarti","Attend respectfully. Timing and crowd management may vary."],
+ ["20:00","Dinner","Have dinner near your accommodation and plan a safe return."]
+ ],
+ [
+ ["06:30","Morning riverfront","Walk along the ghats or choose a reputable boat operator."],
+ ["08:00","Breakfast","Try a local snack and tea."],
+ ["09:30","Sarnath","Explore the Buddhist archaeological area, Dhamek Stupa and museum if open."],
+ ["12:30","Lunch","Return to the city for lunch."],
+ ["14:00","Ramnagar Fort","Explore the fort and museum if open; verify entry and transport details."],
+ ["16:30","Silk shopping","Browse Banarasi sarees and crafts. Ask for receipts and product details."],
+ ["18:30","Assi Ghat","Relax by the river and explore nearby cafes."],
+ ["20:00","Dinner","Choose a restaurant that fits your budget."]
+ ],
+ [
+ ["07:30","Breakfast","Start with a relaxed meal."],
+ ["09:00","Tulsi Manas Temple","Explore respectfully and check local restrictions."],
+ ["10:30","Sankat Mochan area","Visit respectfully and follow local security guidance."],
+ ["12:30","Lunch","Try a local thali or return to a favourite restaurant."],
+ ["14:00","Traditional shopping","Compare silk, textiles and souvenirs from different shops."],
+ ["16:00","Old city walk","Explore selected lanes; allow extra time for crowds."],
+ ["18:00","Final ghat visit","Spend some quiet time by the river."],
+ ["19:30","Farewell dinner","Have a final meal before departure."]
+ ]
+ ]
+}
+];
+
+const money=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+let currentTrip=null;
+const today=new Date();
+document.getElementById("date").value=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().slice(0,10);
+
+function go(id){document.getElementById(id)?.scrollIntoView({behavior:"smooth",block:"start"});}
+function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function findPlace(name){return places.find(p=>p.name.toLowerCase()===String(name).trim().toLowerCase());}
+function mapsUrl(name,city){return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(name+" "+city);}
+
+function recommendation(item,city){
+ return `<div class="item"><strong>${safe(item.name)}</strong><br><span class="tag">Check current Google rating</span><p>${safe(item.detail)}</p><a href="${mapsUrl(item.name,city)}" target="_blank" rel="noopener noreferrer">Find on Google Maps ↗</a></div>`;
+}
+function renderRecommendations(p){
+ document.getElementById("stayList").innerHTML=p.stays.map(x=>recommendation(x,p.name)).join("");
+ document.getElementById("foodList").innerHTML=p.food.map(x=>recommendation(x,p.name)).join("");
+ document.getElementById("shoppingList").innerHTML=p.shopping.map(x=>recommendation(x,p.name)).join("");
+}
+function renderDestinations(){
+ document.getElementById("destinations").innerHTML=places.map(p=>`
+ <article class="card">
+ <img class="place-image" src="https://images.unsplash.com/${p.img}?auto=format&fit=crop&w=700&q=80" alt="${safe(p.name)}">
+ <span class="tag">${safe(p.state)}</span><h3>${safe(p.name)}</h3><p>${safe(p.desc)}</p>
+ <div class="actions"><button class="primary" onclick="choosePlace('${p.name}')">Plan a trip</button><button class="secondary" onclick="showCulture('${p.name}')">History & culture</button></div>
+ </article>`).join("");
+}
+function choosePlace(name){document.getElementById("destination").value=name;go("planner");}
+function showCulture(name){
+ const p=findPlace(name);
+ document.getElementById("cultureCards").innerHTML=`<article class="card"><span class="tag">History & culture</span><h3>${safe(p.name)}</h3><p>${safe(p.history)}</p><b>Attractions</b><p>${p.spots.map(safe).join(" · ")}</p></article>`;
+ go("culture");
+}
+function renderCulture(){
+ document.getElementById("cultureCards").innerHTML=places.map(p=>`
+ <article class="card"><span class="tag">History & culture</span><h3>${safe(p.name)}</h3><p>${safe(p.history)}</p><b>Must-see places</b><p>${p.spots.slice(0,5).map(safe).join(" · ")}</p><button class="secondary" onclick="choosePlace('${p.name}')">Plan this city</button></article>`).join("");
+}
+
+document.getElementById("tripForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const from=document.getElementById("from").value.trim();
+ const destination=document.getElementById("destination").value;
+ const days=Number(document.getElementById("days").value);
+ const budget=Number(document.getElementById("budget").value);
+ const people=Number(document.getElementById("people").value);
+ if(!from||!Number.isFinite(budget)||budget<500){alert("Enter a departure city and a budget of at least ₹500.");return;}
+ const p=findPlace(destination);
+ currentTrip={from,destination,days,budget,people,date:document.getElementById("date").value,style:document.getElementById("style").value};
+ document.getElementById("tripTitle").textContent=`${from} → ${destination} · ${days} day(s) · ${people} traveller(s) · ${currentTrip.style}`;
+ document.getElementById("totalCost").textContent=money(budget);
+ document.getElementById("budgetBreakdown").innerHTML=[["Transport",.25],["Accommodation",.35],["Food",.20],["Activities &buffering buffer",.20]].map(([label,share])=>`<div class="item">${label}<b style="float:right">${money(budget*share)}</b></div>`).join("");
+ document.getElementById("itinerary").innerHTML=p.itinerary.slice(0,days).map((day,i)=>`
+ <div class="day"><h3>Day ${i+1}</h3>${day.map(a=>`<div class="item"><span class="tag">${safe(a[0])}</span><strong>${safe(a[1])}</strong><p>${safe(a[2])}</p></div>`).join("")}</div>`).join("");
+ document.getElementById("transport").innerHTML=[
+ ["🚆","Train","Often economical","Check official railway schedules and fares."],
+ ["🚌","Bus","Useful for selected routes","Check official bus operators."],
+ ["🚗","Car / taxi","Flexible stops and timing","Costs depend on distance and vehicle."]
+ ].map(m=>`<article class="card"><div style="font-size:25px">${m[0]}</div><h3>${m[1]}</h3><p>${m[2]}</p><small>${m[3]}</small><p>Illustrative allocation: ${money(budget*.25/3)}</p></article>`).join("");
+ renderRecommendations(p);
+ document.getElementById("results").classList.remove("hidden");
+ go("results");
+});
+
+function saveTrip(){
+ if(!currentTrip){alert("Generate a trip first.");return;}
+ try{
+  let trips=JSON.parse(localStorage.getItem("traviqueTrips")||"[]");
+  trips.unshift({...currentTrip,id:Date.now()});
+  localStorage.setItem("traviqueTrips",JSON.stringify(trips.slice(0,20)));
+  alert("Trip saved! Open My Trips to view it.");
+ }catch(e){alert("Browser storage is unavailable.");}
+}
+function showSaved(){
+ let trips=[];
+ try{trips=JSON.parse(localStorage.getItem("traviqueTrips")||"[]");}catch(e){}
+ document.getElementById("saved").classList.remove("hidden");
+ document.getElementById("savedTrips").innerHTML=trips.length?trips.map(t=>`
+ <article class="card"><span class="tag">Saved trip</span><h3>${safe(t.from)} → ${safe(t.destination)}</h3>
+ <p>${safe(t.days)} day(s) · ${safe(t.people)} traveller(s)</p><div class="price">${money(t.budget)}</div><p>${safe(t.date)}</p>
+ <button class="secondary" onclick="deleteTrip(${Number(t.id)})">Delete trip</button></article>`).join(""):'<div class="card">No saved trips yet. Generate and save your first itinerary.</div>';
+ go("saved");
+}
+function deleteTrip(id){
+ let trips=JSON.parse(localStorage.getItem("traviqueTrips")||"[]").filter(t=>t.id!==id);
+ localStorage.setItem("traviqueTrips",JSON.stringify(trips));showSaved();
+}
+
+function addMessage(text,who){
+ const log=document.getElementById("chatLog"),div=document.createElement("div");
+ div.className="msg "+(who==="me"?"me":"");div.textContent=text;log.appendChild(div);log.scrollTop=log.scrollHeight;
+}
+function quickChat(text){document.getElementById("chatInput").value=text;sendChat();}
+function sendChat(){
+ const input=document.getElementById("chatInput"),q=input.value.trim();
+ if(!q)return;addMessage(q,"me");input.value="";
+ const s=q.toLowerCase(),p=places.find(x=>s.includes(x.name.toLowerCase()));
+ let answer;
+ if(/budget|cheap|afford/.test(s))answer="Enter your total budget in Plan a Trip. The prototype divides it into transport, accommodation, food and activities. Check actual prices before travel.";
+ else if(/shop|market|buy/.test(s))answer=p?`Shopping in ${p.name}: ${p.shopping.map(x=>x.name+" — "+x.detail).join("; ")}. Compare prices and check opening times.`:"Jaipur: Johari Bazaar and Bapu Bazaar. Agra: Sadar Bazaar and Kinari Bazaar. Varanasi: Godowlia Market and Banarasi silk shops.";
+ else if(/food|eat|restaurant/.test(s))answer=p?`Food ideas in ${p.name}: ${p.food.map(x=>x.name+" — "+x.detail).join("; ")}. Check current menus and reviews.`:"Choose Jaipur, Agra or Varanasi in the planner to see restaurant ideas.";
+ else if(/history|culture|monument/.test(s))answer=p?p.history:"Choose a city in Explore to read its cultural summary.";
+ else if(/stay|hotel/.test(s))answer=p?`Stay suggestions in ${p.name}: ${p.stays.map(x=>x.name+" — "+x.detail).join("; ")}. Verify reviews, prices and availability before booking.`:"Choose a city in the planner to see accommodation suggestions.";
+ else if(/transport|train|bus/.test(s))answer="Compare train, bus and road travel based on cost and convenience. This prototype has no live schedules or ticket availability.";
+ else answer=p?`In ${p.name}, consider ${p.spots.join(", ")}. Use Plan a Trip for detailed timed activities, shopping, restaurants and stays.`:"I can help with sample itineraries, budgets, attractions, shopping, restaurants and hotels in Jaipur, Agra and Varanasi.";
+ addMessage(answer,"bot");
+}
+
+const dictionary={
+ directions:{Hindi:"स्टेशन कहाँ है?",English:"Where is the station?"},
+ food:{Hindi:"कृपया मुझे खाना चाहिए।",English:"I would like food, please."},
+ hotel:{Hindi:"मेरे पास होटल की बुकिंग है।",English:"I have a hotel reservation."},
+ help:{Hindi:"कृपया मेरी मदद करें।",English:"Please help me."},
+ price:{Hindi:"इसकी कीमत कितनी है?",English:"How much does this cost?"}
+};
+function translatePhrase(){
+ const key=document.getElementById("phrase").value;
+ const from=document.getElementById("sourceLang").value;
+ const to=document.getElementById("targetLang").value;
+ const box=document.getElementById("translation");
+ box.classList.remove("hidden");
+ box.innerHTML=`<small>${safe(from)} phrase</small><h3>${safe(dictionary[key][from])}</h3><small>Phrasebook result · ${safe(to)}<y/small><h3>${safe(dictionary[key][to])}</h3><button class="secondary" id="copyTranslation">Copy translation</button>`;
+ document.getElementById("copyTranslation").onclick=async()=>{
+  try{await navigator.clipboard.writeText(dictionary[key][to]);alert("Copied!");}
+  catch(e){alert("Clipboard permission unavailable.");}
+ };
+}
+renderDestinations();
+renderCulture();
+</script>
+</body>
+</html>
